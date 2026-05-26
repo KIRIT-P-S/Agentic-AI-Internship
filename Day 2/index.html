@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NEXUS AI — The Future of Intelligence</title>
+<meta name="description" content="NEXUS AI — A futuristic AI platform that turns data into decisions. Premium, animated, award-winning experience." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<style>
+/* =========================================================
+   NEXUS AI — Futuristic Landing Page
+   Single-file build: HTML + CSS + JS, no frameworks
+   ========================================================= */
+
+/* ---------- 1. Design Tokens ---------- */
+:root{
+  --bg-0:#05060d;
+  --bg-1:#0a0c1a;
+  --bg-2:#0f1226;
+  --surface: rgba(255,255,255,0.04);
+  --surface-strong: rgba(255,255,255,0.08);
+  --border: rgba(255,255,255,0.08);
+  --border-strong: rgba(255,255,255,0.16);
+  --text: #e7eaf6;
+  --text-dim:#9aa3c7;
+  --text-faint:#5f668c;
+
+  --neon-1:#7c5cff;   /* violet */
+  --neon-2:#22d3ee;   /* cyan */
+  --neon-3:#ff4dd2;   /* magenta */
+  --neon-4:#5eead4;   /* teal */
+
+  --grad-primary: linear-gradient(135deg,var(--neon-1) 0%,var(--neon-2) 50%,var(--neon-3) 100%);
+  --grad-soft:    linear-gradient(135deg, rgba(124,92,255,.25), rgba(34,211,238,.18));
+  --grad-text:    linear-gradient(90deg,#a78bfa,#22d3ee,#ff4dd2,#a78bfa);
+
+  --shadow-glow: 0 10px 40px -10px rgba(124,92,255,.6), 0 4px 18px -6px rgba(34,211,238,.35);
+  --radius: 18px;
+  --radius-lg: 28px;
+  --ease: cubic-bezier(.2,.7,.2,1);
+}
+
+/* ---------- 2. Reset / Base ---------- */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  font-family:'Space Grotesk',system-ui,sans-serif;
+  background:var(--bg-0);
+  color:var(--text);
+  line-height:1.6;
+  overflow-x:hidden;
+  cursor:none; /* custom cursor */
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+button{font-family:inherit;cursor:none;border:none;background:none;color:inherit}
+section{position:relative;padding:140px 0;overflow:hidden}
+.container{width:min(1200px,92%);margin-inline:auto;position:relative;z-index:2}
+
+/* Custom scrollbar */
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:#06070f}
+::-webkit-scrollbar-thumb{
+  background:linear-gradient(180deg,var(--neon-1),var(--neon-2));
+  border-radius:10px;
+}
+::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg,var(--neon-3),var(--neon-2))}
+::selection{background:rgba(124,92,255,.4);color:#fff}
+
+/* ---------- 3. Typography ---------- */
+h1,h2,h3,h4{font-weight:600;letter-spacing:-.02em;line-height:1.1}
+h1{font-size:clamp(2.5rem,6vw,5rem)}
+h2{font-size:clamp(2rem,4vw,3.25rem)}
+h3{font-size:1.35rem}
+p{color:var(--text-dim)}
+.mono{font-family:'JetBrains Mono',monospace}
+
+.gradient-text{
+  background:var(--grad-text);
+  background-size:300% 100%;
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  animation:gradShift 8s linear infinite;
+}
+@keyframes gradShift{
+  0%{background-position:0% 50%}
+  100%{background-position:300% 50%}
+}
+
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:6px 14px;border-radius:999px;
+  background:var(--surface);
+  border:1px solid var(--border-strong);
+  font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--text-dim);
+  backdrop-filter:blur(10px);
+}
+.eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--neon-2);box-shadow:0 0 12px var(--neon-2);animation:pulseDot 1.6s ease-in-out infinite}
+@keyframes pulseDot{50%{opacity:.4;transform:scale(.85)}}
+
+.section-head{text-align:center;max-width:720px;margin:0 auto 70px}
+.section-head h2{margin:18px 0 14px}
+.section-head p{font-size:1.05rem}
+
+/* ---------- 4. Buttons ---------- */
+.btn{
+  position:relative;display:inline-flex;align-items:center;gap:10px;
+  padding:14px 26px;border-radius:999px;font-weight:500;font-size:.95rem;
+  transition:transform .4s var(--ease), box-shadow .4s var(--ease);
+  isolation:isolate;
+}
+.btn i{transition:transform .4s var(--ease)}
+.btn:hover i{transform:translateX(4px)}
+.btn-primary{
+  background:var(--grad-primary);
+  background-size:200% 200%;
+  color:#fff;
+  box-shadow:var(--shadow-glow);
+  animation:btnGrad 6s ease infinite;
+}
+.btn-primary::before{
+  content:"";position:absolute;inset:-2px;border-radius:999px;
+  background:var(--grad-primary);filter:blur(18px);opacity:.55;z-index:-1;
+  transition:opacity .4s;
+}
+.btn-primary:hover{transform:translateY(-3px)}
+.btn-primary:hover::before{opacity:.9}
+@keyframes btnGrad{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+
+.btn-ghost{
+  background:var(--surface);
+  border:1px solid var(--border-strong);
+  color:var(--text);
+  backdrop-filter:blur(10px);
+}
+.btn-ghost:hover{background:var(--surface-strong);transform:translateY(-3px)}
+
+/* ---------- 5. Loading Screen ---------- */
+.loader{
+  position:fixed;inset:0;z-index:9999;
+  background:radial-gradient(circle at 50% 50%,#0c0f24,#04050b 70%);
+  display:grid;place-items:center;
+  transition:opacity .8s var(--ease), visibility .8s;
+}
+.loader.hide{opacity:0;visibility:hidden}
+.loader-core{text-align:center}
+.loader-ring{
+  width:90px;height:90px;border-radius:50%;
+  border:2px solid transparent;
+  background:
+    conic-gradient(from 0deg,var(--neon-1),var(--neon-2),var(--neon-3),var(--neon-1)) border-box;
+  -webkit-mask:linear-gradient(#000 0 0) padding-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  animation:spin 1.2s linear infinite;
+  margin:0 auto 22px;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loader-text{font-family:'JetBrains Mono',monospace;letter-spacing:.5em;font-size:.8rem;color:var(--text-dim)}
+
+/* ---------- 6. Custom Cursor & Trail ---------- */
+.cursor-dot,.cursor-ring{
+  position:fixed;top:0;left:0;pointer-events:none;z-index:9998;border-radius:50%;
+  transform:translate(-50%,-50%);
+  transition:width .25s, height .25s, background .25s;
+  mix-blend-mode:screen;
+}
+.cursor-dot{width:6px;height:6px;background:#fff}
+.cursor-ring{width:38px;height:38px;border:1px solid rgba(255,255,255,.55);transition:transform .15s ease-out, width .3s, height .3s}
+.cursor-ring.hover{width:64px;height:64px;background:rgba(124,92,255,.15);border-color:var(--neon-2)}
+.trail{position:fixed;width:8px;height:8px;border-radius:50%;pointer-events:none;z-index:9997;
+  background:radial-gradient(circle,var(--neon-2),transparent 70%);mix-blend-mode:screen}
+
+/* ---------- 7. Background FX ---------- */
+.bg-fx{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+#particles{position:absolute;inset:0}
+.glow{
+  position:absolute;width:600px;height:600px;border-radius:50%;
+  filter:blur(120px);opacity:.45;pointer-events:none;
+  transition:transform .6s var(--ease);
+}
+.glow-1{background:var(--neon-1);top:-200px;left:-180px}
+.glow-2{background:var(--neon-2);bottom:-200px;right:-180px;opacity:.35}
+.glow-3{background:var(--neon-3);top:40%;left:50%;width:400px;height:400px;opacity:.25;transform:translate(-50%,-50%)}
+.mouse-glow{
+  position:fixed;width:520px;height:520px;border-radius:50%;
+  background:radial-gradient(circle, rgba(124,92,255,.18), transparent 60%);
+  pointer-events:none;z-index:1;transform:translate(-50%,-50%);
+  transition:transform .25s var(--ease);
+}
+.grid-overlay{
+  position:fixed;inset:0;z-index:1;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);
+  background-size:60px 60px;
+  mask-image:radial-gradient(circle at center,#000 30%,transparent 75%);
+}
+
+/* ---------- 8. Navbar ---------- */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:18px 0;transition:all .4s var(--ease);
+}
+.nav-inner{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 22px;border-radius:999px;
+  background:rgba(10,12,26,.4);
+  border:1px solid var(--border);
+  backdrop-filter:blur(18px) saturate(140%);
+  -webkit-backdrop-filter:blur(18px) saturate(140%);
+}
+.nav.scrolled .nav-inner{
+  background:rgba(10,12,26,.75);
+  border-color:var(--border-strong);
+  box-shadow:0 10px 40px -20px rgba(0,0,0,.8);
+}
+.logo{display:flex;align-items:center;gap:10px;font-weight:600;font-size:1.05rem}
+.logo-mark{
+  width:30px;height:30px;border-radius:9px;
+  background:var(--grad-primary);background-size:200% 200%;
+  display:grid;place-items:center;color:#fff;font-weight:700;
+  box-shadow:0 6px 20px -6px var(--neon-1);
+  animation:btnGrad 6s ease infinite;
+}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{
+  position:relative;font-size:.92rem;color:var(--text-dim);
+  transition:color .3s;
+}
+.nav-links a::after{
+  content:"";position:absolute;left:0;bottom:-6px;width:100%;height:1px;
+  background:var(--grad-primary);transform:scaleX(0);transform-origin:right;
+  transition:transform .4s var(--ease);
+}
+.nav-links a:hover{color:var(--text)}
+.nav-links a:hover::after{transform:scaleX(1);transform-origin:left}
+.nav-cta{display:flex;gap:10px;align-items:center}
+.hamburger{display:none;width:38px;height:38px;border-radius:10px;
+  background:var(--surface);border:1px solid var(--border-strong);
+  position:relative}
+.hamburger span{
+  position:absolute;left:9px;width:20px;height:2px;background:#fff;border-radius:2px;
+  transition:transform .4s var(--ease),top .3s,opacity .2s;
+}
+.hamburger span:nth-child(1){top:13px}
+.hamburger span:nth-child(2){top:18px}
+.hamburger span:nth-child(3){top:23px}
+.hamburger.open span:nth-child(1){top:18px;transform:rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){top:18px;transform:rotate(-45deg)}
+
+.mobile-menu{
+  position:fixed;inset:0;background:rgba(5,6,13,.96);backdrop-filter:blur(20px);
+  z-index:99;display:grid;place-items:center;
+  opacity:0;visibility:hidden;transition:opacity .4s, visibility .4s;
+}
+.mobile-menu.open{opacity:1;visibility:visible}
+.mobile-menu ul{list-style:none;text-align:center;display:flex;flex-direction:column;gap:28px}
+.mobile-menu a{font-size:1.8rem;font-weight:500}
+
+/* ---------- 9. Hero ---------- */
+.hero{padding:180px 0 120px;min-height:100vh;display:flex;align-items:center}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:60px;align-items:center}
+.hero h1{margin:22px 0 22px}
+.hero h1 .typed{
+  display:inline-block;min-height:1.1em;
+  background:var(--grad-text);background-size:300% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:gradShift 8s linear infinite;
+}
+.caret{display:inline-block;width:3px;height:1em;background:var(--neon-2);
+  vertical-align:-.12em;margin-left:4px;animation:blink 1s steps(2) infinite;
+  box-shadow:0 0 12px var(--neon-2)}
+@keyframes blink{50%{opacity:0}}
+.hero p.lead{font-size:1.15rem;max-width:520px;margin-bottom:36px}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap}
+.hero-stats{display:flex;gap:36px;margin-top:50px;flex-wrap:wrap}
+.hero-stats div{font-size:.85rem;color:var(--text-faint)}
+.hero-stats strong{display:block;font-size:1.5rem;color:var(--text);font-weight:600}
+
+/* AI illustration (pure CSS) */
+.ai-orb{
+  position:relative;aspect-ratio:1;max-width:480px;margin-inline:auto;
+  perspective:1000px;
+}
+.orb-core{
+  position:absolute;inset:25%;border-radius:50%;
+  background:radial-gradient(circle at 30% 30%, #fff, var(--neon-2) 35%, var(--neon-1) 65%, #1a1040 100%);
+  box-shadow:
+    inset 0 0 60px rgba(255,255,255,.4),
+    0 0 80px rgba(124,92,255,.6),
+    0 0 160px rgba(34,211,238,.35);
+  animation:float 6s ease-in-out infinite, hueRot 12s linear infinite;
+}
+@keyframes float{50%{transform:translateY(-14px)}}
+@keyframes hueRot{to{filter:hue-rotate(360deg)}}
+.orb-ring{
+  position:absolute;inset:0;border-radius:50%;
+  border:1px solid rgba(255,255,255,.12);
+  animation:rotate 18s linear infinite;
+}
+.orb-ring::before,.orb-ring::after{
+  content:"";position:absolute;border-radius:50%;
+  border:1px dashed rgba(255,255,255,.18);
+}
+.orb-ring::before{inset:8%;animation:rotate 12s linear infinite reverse;border-color:rgba(34,211,238,.35)}
+.orb-ring::after{inset:18%;border-color:rgba(255,77,210,.3);animation:rotate 22s linear infinite}
+@keyframes rotate{to{transform:rotate(360deg)}}
+.orb-node{
+  position:absolute;width:14px;height:14px;border-radius:50%;
+  background:var(--neon-2);box-shadow:0 0 18px var(--neon-2);
+  top:50%;left:50%;
+}
+.orb-node:nth-child(3){transform:rotate(0deg) translateX(180px);background:var(--neon-3);box-shadow:0 0 18px var(--neon-3)}
+.orb-node:nth-child(4){transform:rotate(72deg) translateX(180px)}
+.orb-node:nth-child(5){transform:rotate(144deg) translateX(180px);background:var(--neon-1);box-shadow:0 0 18px var(--neon-1)}
+.orb-node:nth-child(6){transform:rotate(216deg) translateX(180px);background:var(--neon-4);box-shadow:0 0 18px var(--neon-4)}
+.orb-node:nth-child(7){transform:rotate(288deg) translateX(180px)}
+.ai-orb .orb-ring:nth-of-type(2){animation-duration:26s;transform:rotate(60deg)}
+
+/* Floating badges around orb */
+.float-badge{
+  position:absolute;display:flex;align-items:center;gap:8px;
+  padding:8px 14px;border-radius:999px;
+  background:rgba(15,18,38,.7);border:1px solid var(--border-strong);
+  backdrop-filter:blur(14px);font-size:.78rem;color:var(--text-dim);
+  animation:float 5s ease-in-out infinite;
+}
+.float-badge i{color:var(--neon-2)}
+.float-badge.b1{top:5%;left:-8%;animation-delay:-1s}
+.float-badge.b2{top:18%;right:-6%;animation-delay:-2.5s}
+.float-badge.b3{bottom:8%;left:-4%;animation-delay:-3.5s}
+
+/* ---------- 10. Generic card / glass ---------- */
+.glass{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  backdrop-filter:blur(18px) saturate(140%);
+  -webkit-backdrop-filter:blur(18px) saturate(140%);
+  position:relative;overflow:hidden;
+}
+.glass::before{
+  content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;
+  background:linear-gradient(135deg,rgba(124,92,255,.4),transparent 40%,rgba(34,211,238,.35));
+  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  pointer-events:none;opacity:.7;
+}
+
+/* ---------- 11. About ---------- */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.about-visual{position:relative;aspect-ratio:1;max-width:460px;margin-inline:auto;
+  border-radius:var(--radius-lg);overflow:hidden;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(124,92,255,.45), transparent 55%),
+    radial-gradient(circle at 70% 70%, rgba(34,211,238,.4), transparent 55%),
+    #0a0c1a;
+  border:1px solid var(--border-strong);
+}
+.about-visual .blob{
+  position:absolute;width:280px;height:280px;border-radius:50%;
+  filter:blur(40px);opacity:.7;mix-blend-mode:screen;
+  animation:blobMove 14s ease-in-out infinite;
+}
+.about-visual .blob.b1{background:var(--neon-1);top:10%;left:10%}
+.about-visual .blob.b2{background:var(--neon-2);bottom:10%;right:10%;animation-delay:-7s}
+@keyframes blobMove{50%{transform:translate(40px,-30px) scale(1.1)}}
+.about-tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.tag{padding:6px 12px;border-radius:8px;background:var(--surface);border:1px solid var(--border-strong);font-size:.8rem;color:var(--text-dim);font-family:'JetBrains Mono',monospace}
+
+/* ---------- 12. Features ---------- */
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.feature{
+  padding:32px;border-radius:var(--radius-lg);
+  background:var(--surface);border:1px solid var(--border);
+  transition:transform .5s var(--ease), border-color .4s, background .4s;
+  transform-style:preserve-3d;
+  position:relative;overflow:hidden;
+}
+.feature::after{
+  content:"";position:absolute;inset:-50% -50% auto auto;width:200px;height:200px;
+  background:radial-gradient(circle, rgba(124,92,255,.35), transparent 70%);
+  opacity:0;transition:opacity .5s;
+}
+.feature:hover{border-color:var(--border-strong);background:var(--surface-strong)}
+.feature:hover::after{opacity:1}
+.feature .icon{
+  width:50px;height:50px;border-radius:14px;
+  background:var(--grad-soft);display:grid;place-items:center;
+  border:1px solid var(--border-strong);margin-bottom:20px;
+  font-size:1.2rem;color:var(--neon-2);
+  box-shadow:inset 0 0 20px rgba(34,211,238,.2);
+}
+.feature h3{margin-bottom:10px}
+.feature p{font-size:.94rem}
+
+/* ---------- 13. Services ---------- */
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.service{
+  padding:30px;border-radius:var(--radius-lg);
+  background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.01));
+  border:1px solid var(--border);position:relative;overflow:hidden;
+  transition:transform .5s var(--ease);
+}
+.service .num{
+  font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--text-faint);
+  letter-spacing:.2em;
+}
+.service h3{margin:14px 0 8px;font-size:1.4rem}
+.service .arrow{
+  position:absolute;top:28px;right:28px;width:40px;height:40px;border-radius:50%;
+  background:var(--surface);border:1px solid var(--border-strong);
+  display:grid;place-items:center;color:var(--text-dim);
+  transition:all .4s var(--ease);
+}
+.service:hover .arrow{background:var(--grad-primary);color:#fff;transform:rotate(-45deg)}
+.service::before{
+  content:"";position:absolute;inset:auto 0 0 0;height:2px;
+  background:var(--grad-primary);transform:scaleX(0);transform-origin:left;
+  transition:transform .6s var(--ease);
+}
+.service:hover::before{transform:scaleX(1)}
+
+/* ---------- 14. Stats ---------- */
+.stats{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  padding:50px;border-radius:var(--radius-lg);
+  background:rgba(10,12,26,.5);border:1px solid var(--border-strong);
+  backdrop-filter:blur(16px);
+}
+.stat{text-align:center;padding:10px;border-right:1px solid var(--border)}
+.stat:last-child{border-right:none}
+.stat .num{font-size:clamp(2rem,4vw,3rem);font-weight:600;
+  background:var(--grad-text);background-size:200% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:gradShift 6s linear infinite;
+}
+.stat .label{font-size:.85rem;color:var(--text-dim);margin-top:6px;letter-spacing:.1em;text-transform:uppercase}
+
+/* ---------- 15. Testimonials ---------- */
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.testi{padding:30px;border-radius:var(--radius-lg);background:var(--surface);border:1px solid var(--border);transition:transform .5s var(--ease)}
+.testi .stars{color:#facc15;margin-bottom:14px;font-size:.85rem;letter-spacing:2px}
+.testi p{color:var(--text);font-size:1rem;line-height:1.6}
+.testi .who{display:flex;align-items:center;gap:12px;margin-top:22px;padding-top:22px;border-top:1px solid var(--border)}
+.avatar{
+  width:42px;height:42px;border-radius:50%;
+  background:var(--grad-primary);display:grid;place-items:center;
+  color:#fff;font-weight:600;font-size:.95rem;
+  box-shadow:0 6px 18px -6px var(--neon-1);
+}
+.who small{display:block;color:var(--text-faint);font-size:.78rem;margin-top:2px}
+
+/* ---------- 16. Pricing ---------- */
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;align-items:stretch}
+.price{
+  padding:36px;border-radius:var(--radius-lg);
+  background:var(--surface);border:1px solid var(--border);
+  position:relative;transition:transform .5s var(--ease);
+  display:flex;flex-direction:column;
+}
+.price.popular{
+  background:linear-gradient(180deg, rgba(124,92,255,.15), rgba(34,211,238,.05));
+  border-color:rgba(124,92,255,.5);
+  box-shadow:var(--shadow-glow);
+}
+.price .tier{font-size:.9rem;color:var(--text-dim);letter-spacing:.15em;text-transform:uppercase}
+.price .amount{font-size:3rem;font-weight:600;margin:16px 0 6px}
+.price .amount small{font-size:1rem;color:var(--text-dim);font-weight:400}
+.price ul{list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:12px;flex:1}
+.price li{display:flex;align-items:center;gap:10px;color:var(--text-dim);font-size:.92rem}
+.price li i{color:var(--neon-2);font-size:.85rem}
+.badge-popular{
+  position:absolute;top:-12px;left:50%;transform:translateX(-50%);
+  padding:6px 14px;border-radius:999px;background:var(--grad-primary);
+  font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+}
+
+/* ---------- 17. FAQ ---------- */
+.faq{max-width:780px;margin:0 auto}
+.faq-item{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);margin-bottom:14px;overflow:hidden;
+  transition:border-color .3s, background .3s;
+}
+.faq-item.open{border-color:rgba(124,92,255,.45);background:var(--surface-strong)}
+.faq-q{
+  width:100%;display:flex;justify-content:space-between;align-items:center;
+  padding:22px 26px;font-size:1rem;font-weight:500;text-align:left;
+}
+.faq-q i{transition:transform .4s var(--ease);color:var(--neon-2)}
+.faq-item.open .faq-q i{transform:rotate(45deg)}
+.faq-a{
+  max-height:0;overflow:hidden;padding:0 26px;
+  transition:max-height .5s var(--ease), padding .5s var(--ease);
+  color:var(--text-dim);font-size:.95rem;
+}
+.faq-item.open .faq-a{max-height:300px;padding:0 26px 22px}
+
+/* ---------- 18. Contact ---------- */
+.contact-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:60px;align-items:center}
+.contact-info p{margin-bottom:30px;max-width:380px}
+.contact-meta{display:flex;flex-direction:column;gap:18px}
+.contact-meta div{display:flex;align-items:center;gap:14px;color:var(--text-dim);font-size:.95rem}
+.contact-meta i{
+  width:42px;height:42px;border-radius:12px;display:grid;place-items:center;
+  background:var(--surface);border:1px solid var(--border-strong);color:var(--neon-2);
+}
+.contact-form{
+  padding:40px;border-radius:var(--radius-lg);
+  background:var(--surface);border:1px solid var(--border);
+  backdrop-filter:blur(18px);
+}
+.field{margin-bottom:18px;position:relative}
+.field input,.field textarea{
+  width:100%;padding:16px 18px;border-radius:14px;
+  background:rgba(255,255,255,.03);border:1px solid var(--border-strong);
+  color:var(--text);font-family:inherit;font-size:.95rem;
+  transition:border-color .3s, background .3s, box-shadow .3s;
+  cursor:none;
+}
+.field textarea{min-height:130px;resize:vertical}
+.field input:focus,.field textarea:focus{
+  outline:none;border-color:var(--neon-2);
+  background:rgba(255,255,255,.05);
+  box-shadow:0 0 0 4px rgba(34,211,238,.15);
+}
+.field input::placeholder,.field textarea::placeholder{color:var(--text-faint)}
+
+/* ---------- 19. Footer ---------- */
+footer{position:relative;padding:80px 0 30px;border-top:1px solid var(--border);background:linear-gradient(180deg,transparent,rgba(124,92,255,.05))}
+.foot-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:50px;margin-bottom:50px}
+.foot-col h4{font-size:.95rem;margin-bottom:18px;letter-spacing:.05em}
+.foot-col ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.foot-col a{color:var(--text-dim);font-size:.9rem;transition:color .3s}
+.foot-col a:hover{color:var(--text)}
+.foot-brand p{font-size:.92rem;max-width:300px;margin:14px 0 20px}
+.socials{display:flex;gap:10px}
+.socials a{
+  width:40px;height:40px;border-radius:12px;display:grid;place-items:center;
+  background:var(--surface);border:1px solid var(--border-strong);
+  transition:all .4s var(--ease);
+}
+.socials a:hover{background:var(--grad-primary);transform:translateY(-3px);border-color:transparent}
+.foot-bottom{
+  display:flex;justify-content:space-between;align-items:center;
+  padding-top:24px;border-top:1px solid var(--border);
+  color:var(--text-faint);font-size:.85rem;flex-wrap:wrap;gap:14px;
+}
+
+/* SVG wave separator */
+.wave{position:absolute;left:0;right:0;width:100%;height:80px;display:block}
+.wave.top{top:-1px;transform:scaleY(-1)}
+.wave.bottom{bottom:-1px}
+
+/* ---------- 20. Reveal animations ---------- */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .9s var(--ease), transform .9s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.reveal-stagger > *{opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease), transform .8s var(--ease)}
+.reveal-stagger.in > *{opacity:1;transform:none}
+.reveal-stagger.in > *:nth-child(1){transition-delay:.05s}
+.reveal-stagger.in > *:nth-child(2){transition-delay:.15s}
+.reveal-stagger.in > *:nth-child(3){transition-delay:.25s}
+.reveal-stagger.in > *:nth-child(4){transition-delay:.35s}
+.reveal-stagger.in > *:nth-child(5){transition-delay:.45s}
+.reveal-stagger.in > *:nth-child(6){transition-delay:.55s}
+
+/* ---------- 21. Responsive ---------- */
+@media (max-width:980px){
+  section{padding:100px 0}
+  .hero-grid,.about-grid,.contact-grid{grid-template-columns:1fr;gap:50px}
+  .features-grid,.services-grid,.testi-grid,.pricing-grid{grid-template-columns:1fr 1fr}
+  .stats{grid-template-columns:1fr 1fr;gap:10px}
+  .stat{border-right:none;border-bottom:1px solid var(--border);padding:24px 0}
+  .stat:nth-last-child(-n+2){border-bottom:none}
+  .foot-grid{grid-template-columns:1fr 1fr;gap:40px}
+  .nav-links,.nav-cta .btn{display:none}
+  .hamburger{display:block}
+  body{cursor:auto}
+  .cursor-dot,.cursor-ring,.trail{display:none}
+  button,a,input,textarea{cursor:pointer}
+}
+@media (max-width:620px){
+  .features-grid,.services-grid,.testi-grid,.pricing-grid,.foot-grid{grid-template-columns:1fr}
+  .stats{grid-template-columns:1fr 1fr}
+  .hero{padding:140px 0 80px}
+  .float-badge{display:none}
+  .contact-form{padding:26px}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ LOADER ============ -->
+<div class="loader" id="loader">
+  <div class="loader-core">
+    <div class="loader-ring"></div>
+    <div class="loader-text">INITIALIZING NEXUS</div>
+  </div>
+</div>
+
+<!-- ============ CUSTOM CURSOR ============ -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- ============ BACKGROUND FX ============ -->
+<div class="bg-fx" aria-hidden="true">
+  <canvas id="particles"></canvas>
+  <div class="glow glow-1"></div>
+  <div class="glow glow-2"></div>
+  <div class="glow glow-3"></div>
+</div>
+<div class="grid-overlay" aria-hidden="true"></div>
+<div class="mouse-glow" id="mouseGlow" aria-hidden="true"></div>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="nav">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="#" class="logo">
+        <span class="logo-mark">N</span>
+        <span>NEXUS<span style="color:var(--neon-2)">.</span>ai</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#about">About</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </nav>
+      <div class="nav-cta">
+        <a href="#contact" class="btn btn-primary"><i class="fas fa-rocket"></i> Launch</a>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</div>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="home">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="reveal">
+        <span class="eyebrow"><span class="dot"></span> Introducing Nexus v4.0</span>
+        <h1>The Future of <span class="typed" id="typed"></span><span class="caret"></span><br>Starts Now.</h1>
+        <p class="lead">Nexus is an autonomous AI platform that turns oceans of data into elegant decisions — built for teams that ship the future, not catch up to it.</p>
+        <div class="hero-cta">
+          <a href="#contact" class="btn btn-primary"><i class="fas fa-bolt"></i> Get Started Free</a>
+          <a href="#features" class="btn btn-ghost"><i class="fas fa-play"></i> Watch Demo</a>
+        </div>
+        <div class="hero-stats">
+          <div><strong data-count="120">0</strong>K+ Active Teams</div>
+          <div><strong data-count="99">0</strong>.9% Uptime</div>
+          <div><strong data-count="45">0</strong>+ Integrations</div>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="ai-orb" data-tilt>
+          <div class="orb-ring">
+            <span class="orb-node"></span>
+            <span class="orb-node"></span>
+            <span class="orb-node"></span>
+            <span class="orb-node"></span>
+            <span class="orb-node"></span>
+          </div>
+          <div class="orb-ring"></div>
+          <div class="orb-core"></div>
+          <div class="float-badge b1"><i class="fas fa-brain"></i> Neural Engine</div>
+          <div class="float-badge b2"><i class="fas fa-shield-halved"></i> Zero-Trust</div>
+          <div class="float-badge b3"><i class="fas fa-infinity"></i> Realtime</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="reveal">
+        <div class="about-visual">
+          <div class="blob b1"></div>
+          <div class="blob b2"></div>
+        </div>
+      </div>
+      <div class="reveal">
+        <span class="eyebrow"><span class="dot"></span> About</span>
+        <h2 style="margin:16px 0 18px">Intelligence designed to feel <span class="gradient-text">inevitable</span>.</h2>
+        <p>We build models that don't just predict — they reason, adapt, and collaborate. Nexus is engineered by ex-DeepMind, Apple, and Tesla engineers obsessed with what AI should feel like at human scale.</p>
+        <div class="about-tags">
+          <span class="tag">// Multi-modal</span>
+          <span class="tag">// Edge-native</span>
+          <span class="tag">// Self-healing</span>
+          <span class="tag">// SOC 2 Type II</span>
+          <span class="tag">// Open API</span>
+        </div>
+        <div style="margin-top:30px;display:flex;gap:14px;flex-wrap:wrap">
+          <a href="#features" class="btn btn-primary"><i class="fas fa-arrow-right"></i> Explore Capabilities</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FEATURES ============ -->
+<section id="features">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow"><span class="dot"></span> Capabilities</span>
+      <h2>Everything you need to <span class="gradient-text">ship intelligence</span>.</h2>
+      <p>One platform. Infinite possibilities. Built from the ground up for builders, researchers, and dreamers.</p>
+    </div>
+    <div class="features-grid reveal-stagger">
+      <div class="feature" data-tilt>
+        <div class="icon"><i class="fas fa-brain"></i></div>
+        <h3>Neural Reasoning</h3>
+        <p>State-of-the-art transformer stack with chain-of-thought reasoning and tool-use baked in.</p>
+      </div>
+      <div class="feature" data-tilt>
+        <div class="icon"><i class="fas fa-bolt"></i></div>
+        <h3>Realtime Inference</h3>
+        <p>Sub-50ms latency at the edge. Stream responses to a billion users without breaking a sweat.</p>
+      </div>
+      <div class="feature" data-tilt>
+        <div class="icon"><i class="fas fa-shield-halved"></i></div>
+        <h3>Zero-Trust Security</h3>
+        <p>End-to-end encryption, private inference, and full data residency control. Compliance by default.</p>
+      </div>
+      <div class="feature" data-tilt>
+        <div class="icon"><i class="fas fa-cubes"></i></div>
+        <h3>Modular SDK</h3>
+        <p>Plug Nexus into your stack with one line. Native SDKs for TypeScript, Python, Go, and Rust.</p>
+      </div>
+      <div class="feature" data-tilt>
+        <div class="icon"><i class="fas fa-chart-line"></i></div>
+        <h3>Observability</h3>
+        <p>Trace every token, every decision. Beautiful dashboards that make black boxes transparent.</p>
+      </div>
+      <div class="feature" data-tilt>
+        <div class="icon"><i class="fas fa-wand-magic-sparkles"></i></div>
+        <h3>Auto-Tuning</h3>
+        <p>Self-optimizing pipelines that learn from your usage patterns and reduce cost over time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SERVICES ============ -->
+<section id="services">
+  <svg class="wave top" viewBox="0 0 1200 80" preserveAspectRatio="none"><path d="M0,40 C300,80 900,0 1200,40 L1200,80 L0,80 Z" fill="rgba(124,92,255,.06)"/></svg>
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow"><span class="dot"></span> AI Services</span>
+      <h2>Battle-tested AI, <span class="gradient-text">production ready</span>.</h2>
+      <p>From copilots to autonomous agents — pick a service, integrate in minutes, scale to millions.</p>
+    </div>
+    <div class="services-grid reveal-stagger">
+      <div class="service" data-tilt>
+        <span class="num">01 / SERVICE</span>
+        <h3>Generative Studio</h3>
+        <p>Text, image, code, and video generation through a single unified API.</p>
+        <span class="arrow"><i class="fas fa-arrow-right"></i></span>
+      </div>
+      <div class="service" data-tilt>
+        <span class="num">02 / SERVICE</span>
+        <h3>Autonomous Agents</h3>
+        <p>Multi-step agents that browse, reason, plan, and execute against your tools.</p>
+        <span class="arrow"><i class="fas fa-arrow-right"></i></span>
+      </div>
+      <div class="service" data-tilt>
+        <span class="num">03 / SERVICE</span>
+        <h3>Vector Memory</h3>
+        <p>Massively scalable embeddings with semantic search at petabyte scale.</p>
+        <span class="arrow"><i class="fas fa-arrow-right"></i></span>
+      </div>
+      <div class="service" data-tilt>
+        <span class="num">04 / SERVICE</span>
+        <h3>Voice & Speech</h3>
+        <p>Natural, expressive voice synthesis and ultra-accurate speech recognition.</p>
+        <span class="arrow"><i class="fas fa-arrow-right"></i></span>
+      </div>
+      <div class="service" data-tilt>
+        <span class="num">05 / SERVICE</span>
+        <h3>Vision API</h3>
+        <p>Real-time object detection, OCR, scene understanding, and image reasoning.</p>
+        <span class="arrow"><i class="fas fa-arrow-right"></i></span>
+      </div>
+      <div class="service" data-tilt>
+        <span class="num">06 / SERVICE</span>
+        <h3>Fine-Tuning Lab</h3>
+        <p>Train custom models on your data with one-click RLHF and LoRA pipelines.</p>
+        <span class="arrow"><i class="fas fa-arrow-right"></i></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STATS ============ -->
+<section style="padding:80px 0">
+  <div class="container reveal">
+    <div class="stats">
+      <div class="stat"><div class="num"><span data-count="120">0</span>K+</div><div class="label">Active Teams</div></div>
+      <div class="stat"><div class="num"><span data-count="2.4">0</span>B</div><div class="label">Daily Requests</div></div>
+      <div class="stat"><div class="num"><span data-count="99.9">0</span>%</div><div class="label">Uptime SLA</div></div>
+      <div class="stat"><div class="num"><span data-count="42">0</span>ms</div><div class="label">Avg Latency</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIALS ============ -->
+<section id="testimonials">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow"><span class="dot"></span> Loved by builders</span>
+      <h2>Trusted by teams shipping <span class="gradient-text">tomorrow</span>.</h2>
+    </div>
+    <div class="testi-grid reveal-stagger">
+      <div class="testi" data-tilt>
+        <div class="stars">★★★★★</div>
+        <p>"Nexus collapsed three months of ML infra work into a single weekend. The DX is what every AI platform should aspire to."</p>
+        <div class="who"><div class="avatar">EM</div><div><strong>Elena Marsh</strong><small>CTO, Lumen Robotics</small></div></div>
+      </div>
+      <div class="testi" data-tilt>
+        <div class="stars">★★★★★</div>
+        <p>"It feels like the API was designed by someone who actually had to use it at 2am. Latency is genuinely magical."</p>
+        <div class="who"><div class="avatar">RK</div><div><strong>Ravi Kapoor</strong><small>Founding Eng, Vector Labs</small></div></div>
+      </div>
+      <div class="testi" data-tilt>
+        <div class="stars">★★★★★</div>
+        <p>"We replaced four vendors with Nexus. Costs down 60%, quality up. Our roadmap finally feels limitless."</p>
+        <div class="who"><div class="avatar">SO</div><div><strong>Sara Okafor</strong><small>VP Engineering, Northwind</small></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRICING ============ -->
+<section id="pricing">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow"><span class="dot"></span> Pricing</span>
+      <h2>Simple, scalable, <span class="gradient-text">honest</span>.</h2>
+      <p>Start free. Scale when you're ready. No surprises, no per-seat traps.</p>
+    </div>
+    <div class="pricing-grid reveal-stagger">
+      <div class="price" data-tilt>
+        <div class="tier">Starter</div>
+        <div class="amount">$0<small>/mo</small></div>
+        <p>For tinkerers and solo builders.</p>
+        <ul>
+          <li><i class="fas fa-check"></i> 1M tokens / month</li>
+          <li><i class="fas fa-check"></i> Community support</li>
+          <li><i class="fas fa-check"></i> Standard models</li>
+          <li><i class="fas fa-check"></i> Public deployments</li>
+        </ul>
+        <a href="#contact" class="btn btn-ghost" style="justify-content:center">Get Started</a>
+      </div>
+      <div class="price popular" data-tilt>
+        <span class="badge-popular">Most Popular</span>
+        <div class="tier">Pro</div>
+        <div class="amount">$49<small>/mo</small></div>
+        <p>For fast-moving teams.</p>
+        <ul>
+          <li><i class="fas fa-check"></i> 50M tokens / month</li>
+          <li><i class="fas fa-check"></i> Priority inference</li>
+          <li><i class="fas fa-check"></i> All frontier models</li>
+          <li><i class="fas fa-check"></i> Private deployments</li>
+          <li><i class="fas fa-check"></i> 24/7 support</li>
+        </ul>
+        <a href="#contact" class="btn btn-primary" style="justify-content:center">Start Pro Trial</a>
+      </div>
+      <div class="price" data-tilt>
+        <div class="tier">Enterprise</div>
+        <div class="amount">Custom</div>
+        <p>For organizations at scale.</p>
+        <ul>
+          <li><i class="fas fa-check"></i> Unlimited tokens</li>
+          <li><i class="fas fa-check"></i> Dedicated GPU pool</li>
+          <li><i class="fas fa-check"></i> SSO, SOC 2, HIPAA</li>
+          <li><i class="fas fa-check"></i> On-prem option</li>
+          <li><i class="fas fa-check"></i> Solutions engineer</li>
+        </ul>
+        <a href="#contact" class="btn btn-ghost" style="justify-content:center">Talk to Sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section id="faq">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow"><span class="dot"></span> FAQ</span>
+      <h2>Questions, <span class="gradient-text">answered</span>.</h2>
+    </div>
+    <div class="faq reveal">
+      <div class="faq-item">
+        <button class="faq-q">What models does Nexus support? <i class="fas fa-plus"></i></button>
+        <div class="faq-a">Nexus ships with our own frontier model family plus a router that intelligently selects across leading open and proprietary models depending on task, latency budget, and cost.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Is my data used for training? <i class="fas fa-plus"></i></button>
+        <div class="faq-a">Never. Your prompts and completions are private by default and isolated per workspace. Enterprise plans support fully on-prem deployments.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">How do I migrate from another provider? <i class="fas fa-plus"></i></button>
+        <div class="faq-a">Most teams migrate in under an hour. Our SDK is drop-in compatible with the OpenAI API, so usually it's just a base URL swap.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Can I self-host Nexus? <i class="fas fa-plus"></i></button>
+        <div class="faq-a">Yes — Enterprise customers can deploy the full Nexus stack inside their own VPC or air-gapped environments with full feature parity.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Do you offer a free trial? <i class="fas fa-plus"></i></button>
+        <div class="faq-a">The Starter tier is free forever. Pro includes a 14-day trial with full access to frontier models, no credit card required.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-info reveal">
+        <span class="eyebrow"><span class="dot"></span> Contact</span>
+        <h2 style="margin:16px 0 18px">Let's build the <span class="gradient-text">next decade</span> together.</h2>
+        <p>Tell us what you're building. We'll get back within one business day — usually much sooner.</p>
+        <div class="contact-meta">
+          <div><i class="fas fa-envelope"></i> hello@nexus.ai</div>
+          <div><i class="fas fa-phone"></i> +1 (415) 555-0199</div>
+          <div><i class="fas fa-location-dot"></i> San Francisco · London · Tokyo</div>
+        </div>
+      </div>
+      <form class="contact-form reveal" onsubmit="handleSubmit(event)">
+        <div class="field"><input type="text" placeholder="Your name" required></div>
+        <div class="field"><input type="email" placeholder="Work email" required></div>
+        <div class="field"><input type="text" placeholder="Company"></div>
+        <div class="field"><textarea placeholder="Tell us about your project..." required></textarea></div>
+        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center"><i class="fas fa-paper-plane"></i> Send Message</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-col foot-brand">
+        <a href="#" class="logo">
+          <span class="logo-mark">N</span>
+          <span>NEXUS<span style="color:var(--neon-2)">.</span>ai</span>
+        </a>
+        <p>The autonomous intelligence platform for teams building the next decade of software.</p>
+        <div class="socials">
+          <a href="#" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+          <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+          <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" aria-label="Discord"><i class="fab fa-discord"></i></a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>Product</h4>
+        <ul><li><a href="#features">Features</a></li><li><a href="#services">Services</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#">Changelog</a></li></ul>
+      </div>
+      <div class="foot-col">
+        <h4>Company</h4>
+        <ul><li><a href="#about">About</a></li><li><a href="#">Careers</a></li><li><a href="#">Press</a></li><li><a href="#">Blog</a></li></ul>
+      </div>
+      <div class="foot-col">
+        <h4>Resources</h4>
+        <ul><li><a href="#">Docs</a></li><li><a href="#">API Reference</a></li><li><a href="#">Status</a></li><li><a href="#contact">Contact</a></li></ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div>© 2026 Nexus AI Labs. All rights reserved.</div>
+      <div>Crafted with <i class="fas fa-heart" style="color:var(--neon-3)"></i> in San Francisco</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* =========================================================
+   NEXUS AI — Interactions
+   ========================================================= */
+
+/* ---- Loader ---- */
+window.addEventListener('load', () => {
+  setTimeout(() => document.getElementById('loader').classList.add('hide'), 900);
+});
+
+/* ---- Custom cursor + trail ---- */
+const dot = document.getElementById('cursorDot');
+const ring = document.getElementById('cursorRing');
+const mouseGlow = document.getElementById('mouseGlow');
+let mx=window.innerWidth/2, my=window.innerHeight/2, rx=mx, ry=my;
+
+window.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  dot.style.transform = `translate(${mx}px, ${my}px) translate(-50%,-50%)`;
+  mouseGlow.style.transform = `translate(${mx}px, ${my}px) translate(-50%,-50%)`;
+  spawnTrail(mx,my);
+});
+function loop(){
+  rx += (mx - rx) * 0.18;
+  ry += (my - ry) * 0.18;
+  ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%,-50%)`;
+  requestAnimationFrame(loop);
+}
+loop();
+document.querySelectorAll('a,button,.feature,.service,.price,.testi,input,textarea').forEach(el=>{
+  el.addEventListener('mouseenter', ()=> ring.classList.add('hover'));
+  el.addEventListener('mouseleave', ()=> ring.classList.remove('hover'));
+});
+
+let lastTrail = 0;
+function spawnTrail(x,y){
+  const now = performance.now();
+  if(now - lastTrail < 35) return;
+  lastTrail = now;
+  const t = document.createElement('div');
+  t.className = 'trail';
+  t.style.left = (x-4)+'px';
+  t.style.top = (y-4)+'px';
+  document.body.appendChild(t);
+  let o = 1, s = 1;
+  const start = performance.now();
+  function anim(now){
+    const k = (now - start)/700;
+    if(k>=1){t.remove();return}
+    t.style.opacity = (1-k);
+    t.style.transform = `scale(${1+k*2})`;
+    requestAnimationFrame(anim);
+  }
+  requestAnimationFrame(anim);
+}
+
+/* ---- Navbar scroll state ---- */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 30);
+}, {passive:true});
+
+/* ---- Mobile menu ---- */
+const ham = document.getElementById('hamburger');
+const menu = document.getElementById('mobileMenu');
+ham.addEventListener('click', () => {
+  ham.classList.toggle('open');
+  menu.classList.toggle('open');
+});
+menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+  ham.classList.remove('open'); menu.classList.remove('open');
+}));
+
+/* ---- Typing effect ---- */
+const words = ['Intelligence', 'Automation', 'Discovery', 'Creation'];
+const typed = document.getElementById('typed');
+let wIdx = 0, cIdx = 0, deleting = false;
+function type(){
+  const w = words[wIdx];
+  typed.textContent = w.slice(0, cIdx);
+  if(!deleting && cIdx < w.length){ cIdx++; setTimeout(type, 90); }
+  else if(deleting && cIdx > 0){ cIdx--; setTimeout(type, 45); }
+  else {
+    deleting = !deleting;
+    if(!deleting) wIdx = (wIdx+1) % words.length;
+    setTimeout(type, deleting ? 1400 : 250);
+  }
+}
+type();
+
+/* ---- Particles ---- */
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+let particles = [];
+function resize(){canvas.width=innerWidth;canvas.height=innerHeight}
+resize(); window.addEventListener('resize', resize);
+function initParticles(){
+  particles = [];
+  const count = Math.min(90, Math.floor(innerWidth/18));
+  for(let i=0;i<count;i++){
+    particles.push({
+      x:Math.random()*canvas.width,
+      y:Math.random()*canvas.height,
+      vx:(Math.random()-.5)*.3,
+      vy:(Math.random()-.5)*.3,
+      r:Math.random()*1.6+.4,
+      c:['rgba(124,92,255,','rgba(34,211,238,','rgba(255,77,210,'][Math.floor(Math.random()*3)]
+    });
+  }
+}
+initParticles(); window.addEventListener('resize', initParticles);
+function drawParticles(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  for(const p of particles){
+    p.x += p.vx; p.y += p.vy;
+    if(p.x<0||p.x>canvas.width) p.vx*=-1;
+    if(p.y<0||p.y>canvas.height) p.vy*=-1;
+    ctx.beginPath();
+    ctx.fillStyle = p.c + '.7)';
+    ctx.shadowColor = p.c + '.9)';
+    ctx.shadowBlur = 8;
+    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fill();
+  }
+  // connect close ones
+  ctx.shadowBlur = 0;
+  for(let i=0;i<particles.length;i++){
+    for(let j=i+1;j<particles.length;j++){
+      const a=particles[i], b=particles[j];
+      const dx=a.x-b.x, dy=a.y-b.y, d=Math.sqrt(dx*dx+dy*dy);
+      if(d<120){
+        ctx.strokeStyle = `rgba(124,92,255,${(1-d/120)*.18})`;
+        ctx.lineWidth = .6;
+        ctx.beginPath();
+        ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y);
+        ctx.stroke();
+      }
+    }
+  }
+  requestAnimationFrame(drawParticles);
+}
+drawParticles();
+
+/* ---- Reveal on scroll ---- */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      e.target.classList.add('in');
+      if(e.target.querySelectorAll('[data-count]').length){
+        e.target.querySelectorAll('[data-count]').forEach(animateCount);
+      }
+      io.unobserve(e.target);
+    }
+  });
+}, {threshold:.15});
+document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => io.observe(el));
+
+/* ---- Counters ---- */
+function animateCount(el){
+  const target = parseFloat(el.dataset.count);
+  const isFloat = target % 1 !== 0;
+  let cur = 0;
+  const dur = 1600, start = performance.now();
+  function step(now){
+    const t = Math.min(1, (now-start)/dur);
+    const eased = 1 - Math.pow(1-t, 3);
+    cur = target * eased;
+    el.textContent = isFloat ? cur.toFixed(1) : Math.floor(cur);
+    if(t<1) requestAnimationFrame(step);
+    else el.textContent = isFloat ? target.toFixed(1) : target;
+  }
+  requestAnimationFrame(step);
+}
+// hero stats also need counter trigger
+document.querySelectorAll('.hero-stats [data-count]').forEach(el => {
+  const io2 = new IntersectionObserver(es => es.forEach(e => {
+    if(e.isIntersecting){ animateCount(el); io2.disconnect(); }
+  }));
+  io2.observe(el);
+});
+
+/* ---- Tilt effect ---- */
+document.querySelectorAll('[data-tilt]').forEach(el => {
+  el.addEventListener('mousemove', e => {
+    const r = el.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - .5;
+    const y = (e.clientY - r.top) / r.height - .5;
+    el.style.transform = `perspective(900px) rotateY(${x*8}deg) rotateX(${-y*8}deg) translateY(-4px)`;
+  });
+  el.addEventListener('mouseleave', () => {
+    el.style.transform = '';
+  });
+});
+
+/* ---- Parallax glows ---- */
+window.addEventListener('mousemove', e => {
+  const x = (e.clientX / innerWidth - .5);
+  const y = (e.clientY / innerHeight - .5);
+  document.querySelector('.glow-1').style.transform = `translate(${x*40}px, ${y*40}px)`;
+  document.querySelector('.glow-2').style.transform = `translate(${-x*40}px, ${-y*40}px)`;
+});
+window.addEventListener('scroll', () => {
+  const y = window.scrollY;
+  const orb = document.querySelector('.ai-orb');
+  if(orb) orb.style.transform = `translateY(${y*0.08}px)`;
+}, {passive:true});
+
+/* ---- FAQ accordion ---- */
+document.querySelectorAll('.faq-item').forEach(item => {
+  item.querySelector('.faq-q').addEventListener('click', () => {
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if(!wasOpen) item.classList.add('open');
+  });
+});
+
+/* ---- Form submit ---- */
+function handleSubmit(e){
+  e.preventDefault();
+  const btn = e.target.querySelector('button[type="submit"]');
+  const orig = btn.innerHTML;
+  btn.innerHTML = '<i class="fas fa-check"></i> Message Sent';
+  btn.style.background = 'linear-gradient(135deg,#22d3ee,#5eead4)';
+  setTimeout(() => { btn.innerHTML = orig; btn.style.background=''; e.target.reset(); }, 2400);
+}
+</script>
+</body>
+</html>
