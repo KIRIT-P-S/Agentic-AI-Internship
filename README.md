@@ -91,7 +91,7 @@ By completing this internship, I gained experience in:
 Clone the repository:
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/KIRIT-P-S/Agentic-AI-Internship.git
 ```
 
 Navigate to the project directory:
